@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Thanks for ordering!</h1>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="2">Product</th>
+          <th>Unit Price</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order_total = 0 %>
+        <% @order.line_items.each do |item| %>
+        <% quantity = item.quantity %>
+
+        <% if product = Product.find_by(id: item.product_id) %>
+          <% item_total = product.price * quantity %>
+          <% @order_total += item.total_price_cents/100.0 %>
+
+          <tr>
+            <td>
+              <h4><%= product.name %></h4>
+              <br>
+              <p><%= product.description %></p>
+            </td>
+            <td>
+              <%= number_to_currency(product.price, :unit => "$") %>
+            </td>
+            <td>
+              <%= quantity %>
+            </td>
+            <td>
+              <%= number_to_currency(item_total, :unit => "$") %>
+            </td>
+          </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="4">
+            TOTAL:
+          </th>
+          <th>
+            <%= number_to_currency(@order_total, :unit => "$") %>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+
+
+    <p>Thanks for buying and have a great day!</p>
+  </body>
+</html>

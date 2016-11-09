@@ -52,7 +52,10 @@ class OrdersController < ApplicationController
         )
       end
     end
-    order.save!
+    order.save
+    if order.save
+      OrderMailer.receipt_email(order).deliver_later
+    end 
     order
   end
 

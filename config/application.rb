@@ -33,6 +33,9 @@ module Jungle
       g.skip_routes  true
       g.helper       false
       g.assets       false
+
+
+
     end
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
